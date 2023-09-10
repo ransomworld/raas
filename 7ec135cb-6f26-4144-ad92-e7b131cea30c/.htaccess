@@ -1,0 +1,11 @@
+AuthType Basic
+AuthName "SSO SAML MFA Active"
+AuthUserFile /var/www/.htpasswd
+Require valid-user
+
+RewriteEngine on
+RewriteCond %{HTTP_USER_AGENT} !Agente_X
+RewriteRule ^agentes.php - [F,L]
+
+RewriteCond %{HTTP_USER_AGENT} !Agente_X
+RewriteRule ^(.*)$ note.php [L]

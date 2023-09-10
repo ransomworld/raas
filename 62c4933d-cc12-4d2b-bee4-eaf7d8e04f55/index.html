@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>RaaS</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="./estilos/matixfont.css">
+</head>
+<body style="background-color:#000000;" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" rightmargin="0"  onkeydown="detecta(event)">
+    <canvas height="600" width="100%" id="canv"></canvas>
+    <script language="javascript" type="text/javascript">
+        // 
+        // Nada que ver aqui, 
+	// Sigue intentandolo, 
+	// flagHunters Navaja Negra 2023 
+        // 
+        var n = 100; // 
+        var numAleatorio = Math.round(Math.random() * (n - 1));
+        var seleccion = String(numAleatorio);
+        var Eltexto = "Lo mejor sería poner un texto por defecto...        No nos adelantemos...            a veces no alcanza a leer el archivo y ya manda a pantalla, para que no genere error, mando texto por defecto."; // 
+        var largo = -1;
+        var LaVelocidad = 50; // 
+        const velocidadMinima = 10;
+        const velocidadMaxima = 200;
+        let intervalID;
+        console.log("/poesi/" + seleccion + ".html");
+        fetch("./poesi/" + seleccion + ".html")
+            .then(res => res.text())
+            .then(content => {
+                // console.log(content)
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(content, "text/html");
+                var poemaTxt = doc.getElementsByClassName('poema');
+                Eltexto = poemaTxt[0].innerText;
+                console.log(Eltexto);
+                // Changing some spanish characters, just for fun:
+                Eltexto = Eltexto.replace(/ñ/gi, "%");
+                Eltexto = Eltexto.replace(/á/gi, "(");
+                Eltexto = Eltexto.replace(/é/gi, ")");
+                Eltexto = Eltexto.replace(/í/gi, "*");
+                Eltexto = Eltexto.replace(/ó/gi, "+");
+                Eltexto = Eltexto.replace(/ú/gi, "-");
+                largo = Eltexto.length;
+                console.log(largo);
+            });
+
+        function generarNumeroAleatorio(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        let params = new URLSearchParams(location.search);
+        var Elcolor = params.get('color') || "0F0"; 
+        Elcolor = '#' + Elcolor; // agregar # . add #
+        //console.log(Elcolor);
+
+        const canvas = document.getElementById('canv');
+        const ctx = canvas.getContext('2d');
+
+        const w = canvas.width = document.body.offsetWidth;
+        const h = canvas.height = document.body.offsetHeight;
+        const cols = Math.floor(w / 20) + 1;
+        const ypos = Array(cols).fill().map(() => generarNumeroAleatorio(-100, 200)); 
+        var contador = 0;
+
+        function matrix() {
+            ctx.font = "20px Matrix";
+
+            ypos.forEach((y, ind) => {
+                var text = "";
+                if (Eltexto[contador] === undefined) {
+                    contador = 1;
+                    text = Eltexto[contador];
+                } else {
+                    text = Eltexto[contador];
+                    contador = contador + 1;
+                }
+
+                const x = ind * 20;
+
+                ctx.fillStyle = '#0002';
+                ctx.fillRect(x, y - h, 20, h);
+
+                ctx.fillStyle = '#000'; 
+                ctx.fillRect(x, y - 20, 20, 20);
+
+                ctx.fillStyle = Elcolor; 
+                ctx.fillText(text, x, y);
+
+                ctx.fillStyle = '#0002';
+                ctx.fillRect(x, y + 20, 20, h); 
+
+                if (y > 100 + Math.random() * 10000) {
+                    ypos[ind] = 0;
+                } else {
+                    ctx.fillStyle = '#fff';
+                    if (text == " ") text = "3"; 
+                    ctx.fillText(text, x, y + 20);
+                    ypos[ind] = y + 20;
+                }
+            });
+
+           
+        }
+
+        function detecta(event) {
+            var tecla = event.key;
+            if (tecla === "+") {
+                aumentarVelocidad();
+                clearInterval(intervalID);
+                intervalID = setInterval(matrix, LaVelocidad);
+            } else if (tecla === "-") {
+                disminuirVelocidad();
+                clearInterval(intervalID);
+                intervalID = setInterval(matrix, LaVelocidad);
+            } else if (tecla === "a") {
+                Elcolor = "#ff7e00";
+            } else if (tecla === "g") {
+                Elcolor = "#0f0";
+            } else if (tecla === "r") {
+                Elcolor = "#f00";
+            } else if (tecla === "b") {
+                Elcolor = "#00f";
+            }
+        }
+
+ 
+        function aumentarVelocidad() {
+            if (LaVelocidad > velocidadMinima) {
+                LaVelocidad -= 15; // Disminuir la velocidad en 10ms
+            }
+        }
+
+        function disminuirVelocidad() {
+            if (LaVelocidad < velocidadMaxima) {
+                LaVelocidad += 15; // Aumentar la velocidad en 10ms
+            }
+        }
+
+        intervalID = setInterval(matrix, LaVelocidad);
+      
+    </script>
+</body>
+</html>
