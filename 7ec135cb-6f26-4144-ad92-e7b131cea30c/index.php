@@ -1,15 +1,15 @@
 <?php
 
 $host = "mysql"; 
-$dbname = "super-secret-website";
+$dbname = "XXXXXXXXXXXXXXXXXXX";
 $charset = "utf8";
 $port = "3306";
 
 try {
     $pdo = new PDO(
         dsn: "mysql:host=$host;dbname=$dbname;charset=$charset;port=$port",
-        username: "root",
-        password: "super-secret-password",
+        username: "XXXXXXXXXXX",
+        password: "XXXXXXXXXXXXXXXXXXX",
     );
 
     $persons = $pdo->query("SELECT * FROM Agentes");
