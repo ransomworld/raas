@@ -4,11 +4,9 @@ pink
 poop
 baby
 sexy
-123 
 alex
 star
 mike
-    
 blue
 ryan
 josh
@@ -21,7 +19,6 @@ cool
 blah
 fuck
 dude
-me  
 rose
 kyle
 jake
